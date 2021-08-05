@@ -1,0 +1,77 @@
+.bzs-list-container {
+    display: block;
+    width: 100%;
+}
+
+.bzs-empty .bzs-status {
+    display: block;
+}
+
+.bzs-empty ul {
+    display: none;
+}
+
+.bzs-status {
+    display: none;
+}
+
+.bzs-status::before {
+    content: "No podcasts available";
+}
+
+.bzs-list-container ul {
+    display: flex;
+    width: 100%;
+    flex-flow: row wrap;
+    align-content: space-between;
+    justify-content: space-around;
+}
+
+.bzs-list-container li {
+    display: inline-block;
+    width: 200px;
+    height: 50px;
+    line-height: 50px;
+    margin: 0 !important;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: -924px 12px;
+    transition: transform 0.2s;
+}
+
+.bzs-list-container li:hover,li:focus {
+    transform: scale(1.03);
+}
+
+.bzs-list-container li a {
+    margin-left: 40px;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.bzs-list-container li.bzs-item-apple{background-position:0 15px}
+.bzs-list-container li.bzs-item-spotify{background-position:0 -37px}
+.bzs-list-container li.bzs-item-google{background-position:0 -85px}
+.bzs-list-container li.bzs-item-stitcher{background-position:0 -130px}
+.bzs-list-container li.bzs-item-iheartradio{background-position:0 -181px}
+.bzs-list-container li.bzs-item-tunein{background-position:0 -227px}
+.bzs-list-container li.bzs-item-rss{background-position:0 -287px}
+.bzs-list-container li.bzs-item-overcast{background-position:0 -335px}
+.bzs-list-container li.bzs-item-pocketcasts{background-position:0 -385px}
+.bzs-list-container li.bzs-item-castro{background-position:0 -435px}
+.bzs-list-container li.bzs-item-castbox{background-position:0 -485px}
+.bzs-list-container li.bzs-item-podchaser{background-position:0 -535px}
+.bzs-list-container li.bzs-item-pandora{background-position:0 -586px}
+.bzs-list-container li.bzs-item-podcastaddict{background-position:0 -639px}
+.bzs-list-container li.bzs-item-deezer{background-position:0 -694px}
+.bzs-list-container li.bzs-item-listennotes{background-position:0 -747px}
+.bzs-list-container li.bzs-item-amazon{background-position:0 -796px}
+.bzs-list-container li.bzs-item-playerfm{background-position:0 -846px}
+.bzs-list-container li.bzs-item-jiosaavn{background-position:0 -896px}
+.bzs-list-container li.bzs-item-gaana{background-position:0 -946px}
+.bzs-list-container li.bzs-item-podcastindex{background-position:0 -996px}
+.bzs-list-container li.bzs-item-podfriend{background-position:0 -1046px}
+
+.bsz-admin-container {
+    display: block;
+}
