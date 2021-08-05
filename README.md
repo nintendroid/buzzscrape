@@ -3,7 +3,7 @@ A Wordpress widget that retrieves your Podcast channels from your Buzzsprout acc
 
 ## Installation
 * Please create a file called `Makefile.local` .
-* Set the `plugins_dir` variable to specify the distribution directory containing the production files. Example:
+* Inside, set the `plugins_dir` variable to specify the distribution directory to contain the production files. Example:
 ```
 plugins_dir=/Users/MyUser/Desktop
 ```
