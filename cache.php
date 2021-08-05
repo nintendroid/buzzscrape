@@ -96,7 +96,7 @@ function bzs_parse($id, $text) {
         }
     }
 
-    wp_send_json_success('count: ' . $count);
+    return $count;
 }
 
 function bzs_refresh($bid) {
@@ -110,12 +110,14 @@ function bzs_refresh($bid) {
     $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
+    $count = 0;
+
     if ($httpStatus == 200) {
         bzs_clear_channels($bid);
-        bzs_parse($bid, $response);
+        $count = bzs_parse($bid, $response);
     }
 
-    return $httpStatus;
+    return array('status' => $httpStatus, 'count' => $count);
 }
 
 function bzs_ajax_refresh() {
@@ -127,14 +129,14 @@ function bzs_ajax_refresh() {
         return;
     }
 
-    $httpStatus = bzs_refresh($_POST['bid']);
+    $result = bzs_refresh($_POST['bid']);
 
-    if ($httpStatus != 200) {
+    if (!isset($result) || $result['status'] != 200) {
         wp_send_json_error('Failed to retrieve data.');
         return;
     }
 
-    wp_send_json_success();
+    wp_send_json_success('count: ' . $result['count']);
 }
 
 // Register admin action
