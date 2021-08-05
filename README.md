@@ -1,2 +1,2 @@
 # buzzscrape
-For Our Hometown
+A Wordpress widget that retrieves your Podcast channels from your Buzzsprout account.
