@@ -20,12 +20,7 @@ class BZS_Widget extends WP_Widget {
     
     // Creates the widget UI
     public function widget( $args, $props ) {
-        if (!isset($props['scrape_auto']) || !$props['scrape_auto']) {
-            $result = null;
-        }
-        else {
-            $result = bzs_find_channels($props['bid']);
-        }
+        $result = bzs_find_channels($props['bid']);
         $cls = empty($result) ? 'bzs-empty' : '';
 ?>
 <div class="widget bzs-list-container <?php echo $cls; ?>">
@@ -52,20 +47,13 @@ class BZS_Widget extends WP_Widget {
         $bidField = $this->get_field_id('bid');
         $bidName = $this->get_field_name('bid');
 
-        $scrape = isset($props['scrape_auto']) ? $props['scrape_auto'] : '';
-        $scrapeField = $this->get_field_id('scrape_auto');
-        $scrapeName = $this->get_field_name('scrape_auto');
+        $adminUrl = admin_url('admin-ajax.php');
+        $checkState = get_option('bzs_auto_refresh');
 
         // Widget admin form
         ?>
 <div class="bsz-admin-container">
     <fieldset>
-        <p>
-            <input class="checkbox" type="checkbox" <?php checked($scrape, 'on'); ?>
-                id="<?php echo $scrapeField; ?>" name="<?php echo $scrapeName; ?>"
-            /> 
-            <label for="<?php echo $scrapeField; ?>">Enabled</label>
-        </p>
         <p>
             <label for="<?php echo $bidField; ?>">
                 <?php __('Buzzsprout ID:', self::DOMAIN); ?>
@@ -75,9 +63,15 @@ class BZS_Widget extends WP_Widget {
                 value="<?php echo esc_attr($bid); ?>"
             />
         </p>
+        <p>
+            <input class="checkbox" type="checkbox" <?php if ($checkState === 'on') { echo 'checked'; } ?>
+                id="bzs-autorefresh" onchange="adminEnableRefresh('<?php echo $adminUrl ?>', 'bzs-autorefresh');"
+            />
+            <label for="bzs-autorefresh">Enable automatic refresh</label>
+        </p>
     </fieldset>
     <p><button class="components-button is-primary"
-        onclick="adminRefreshCache('<?php echo admin_url('admin-ajax.php'); ?>', '<?php echo $bidField; ?>');"
+        onclick="adminRefreshCache('<?php echo $adminUrl ?>', '<?php echo $bidField; ?>');"
     >Refresh</button></p>
 </div>
         <?php 

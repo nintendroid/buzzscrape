@@ -11,7 +11,7 @@ require_once(__DIR__ . '/cache.php');
 
 // Register dependencies
 function bzs_enqueue_scripts() {
-    $ver = '0.9.0-4';
+    $ver = '0.9.0-9';
     
     wp_enqueue_style('bzs_style', plugins_url('css/style.css', __FILE__), array(), $ver);
 }
@@ -20,7 +20,7 @@ add_action('wp_enqueue_scripts', 'bzs_enqueue_scripts');
 
 // Register dependencies
 function bzs_admin_enqueue_scripts() {
-    $ver = '0.9.0-4';
+    $ver = '0.9.0-9';
     
     wp_register_script(
         'bzs_script_admin', plugins_url('js/admin.js', __FILE__), array('jquery'), $ver
@@ -47,14 +47,32 @@ function bzs_refresh_all() {
         return;
     }
 
-    $ids = bzs_get_ids();
-
-    foreach ($ids as $row) {
-        bzs_refresh($row->bid);
+    if (get_option('bzs_auto_refresh') === 'on') {
+        $ids = bzs_get_ids();
+    
+        foreach ($ids as $row) {
+            bzs_refresh($row->bid);
+        }
     }
 }
 
 add_action('bzs_daily_refresh', 'bzs_refresh_all');
+
+function bzs_ajax_autorefresh() {
+    $valid = current_user_can('editor') || current_user_can('administrator');
+    $valid = $valid && isset($_POST['autorefresh']);
+
+    if (!$valid) {
+        wp_send_json_error('Access denied.');
+        return;
+    }
+
+    update_option('bzs_auto_refresh', $_POST['autorefresh']);
+    wp_send_json_success();
+}
+
+// Register admin action
+add_action('wp_ajax_bzs_autorefresh', 'bzs_ajax_autorefresh');
 
 // Plugin activation
 function bzs_activate() {
@@ -63,6 +81,7 @@ function bzs_activate() {
     }
 
     bzs_create_table();
+    update_option('bzs_auto_refresh', 'on');
 
     if (!wp_next_scheduled('bzs_daily_refresh') ) {
         wp_schedule_event(time(), 'daily', 'bzs_daily_refresh');
