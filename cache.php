@@ -38,6 +38,7 @@ function bzs_delete_table() {
     delete_option("bzs_db_version");
 }
 
+// Find all entries under a particular account
 function bzs_find_channels($bid) {
     global $wpdb;
     $table_name = bzs_table_name();
@@ -48,6 +49,7 @@ function bzs_find_channels($bid) {
     return (empty($result) ? null : $result);
 }
 
+// Get all account IDs in the database
 function bzs_get_ids() {
     global $wpdb;
     $table_name = bzs_table_name();
@@ -58,6 +60,7 @@ function bzs_get_ids() {
     return (empty($result) ? null : $result);
 }
 
+// Cache the result
 function bzs_update_item($id, $name, $description, $url) {
     global $wpdb;
     $table_name = bzs_table_name();
@@ -70,6 +73,7 @@ function bzs_update_item($id, $name, $description, $url) {
     $result = $wpdb->query($sql);
 }
 
+// Parses the payload
 function bzs_parse($id, $text) {
     $config = include(__DIR__ . '/config.php');
     $pattern = $config['scrape_pattern'];
@@ -99,6 +103,7 @@ function bzs_parse($id, $text) {
     return $count;
 }
 
+// Helper function HTTP requester
 function bzs_refresh($bid) {
     $config = include(__DIR__ . '/config.php');
     $url = $config['content_base_url'] . '/' . $bid;
@@ -120,6 +125,7 @@ function bzs_refresh($bid) {
     return array('status' => $httpStatus, 'count' => $count);
 }
 
+// Force a refresh for a particular account
 function bzs_ajax_refresh() {
     $valid = current_user_can('editor') || current_user_can('administrator');
     $valid = $valid && isset($_POST['bid']);

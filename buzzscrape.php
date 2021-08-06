@@ -90,7 +90,7 @@ function bzs_activate() {
 
 register_activation_hook(__FILE__, 'bzs_activate');
 
-// Plugin activation
+// Plugin deactivation
 function bzs_deactivate() {
     if (!current_user_can('activate_plugins')) {
         return;
