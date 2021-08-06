@@ -23,3 +23,5 @@ node_modules/
 *.sqlite
 Makefile.local
 
+.DS_Store
+

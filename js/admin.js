@@ -1,5 +1,5 @@
 
-function bzsAdminRequest(ajaxurl, data) {
+function bzsAdminRequest(ajaxurl, data, onSuccess) {
     jQuery('.bsz-admin-container button,input').prop('disabled', true); 
 
     // Send request
@@ -26,7 +26,9 @@ function bzsAdminRequest(ajaxurl, data) {
                 return;
             }
 
-            console.log(response.data);
+            if (onSuccess != null) {
+                onSuccess();
+            }
          },
         error: function (xhr) {
             alert(xhr.responseText);
@@ -43,7 +45,7 @@ function adminRefreshCache(ajaxurl, bidId) {
         'bid': jQuery('#' + bidId).val()
     };
     
-    return bzsAdminRequest(ajaxurl, data);
+    return bzsAdminRequest(ajaxurl, data, function () { location.reload(); });
 }
 
 
